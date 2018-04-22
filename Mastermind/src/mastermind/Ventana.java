@@ -21,11 +21,12 @@ public class Ventana extends JFrame {
 
     public Ventana() {
 
+        //creacion del tablero
         super("Mastermind");
         getContentPane().setLayout(new GridBagLayout());
         setSize(280, 700);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);            //creacion del tablero
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setBackground(Color.GRAY);
         setResizable(false);
         GridBagConstraints c = new GridBagConstraints();

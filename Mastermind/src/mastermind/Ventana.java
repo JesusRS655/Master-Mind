@@ -5,8 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import javax.swing.*;
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
 
 public class Ventana extends JFrame {
 
@@ -16,8 +16,7 @@ public class Ventana extends JFrame {
     int contTirada = 0;
     int intentos = 0;
     JPanel sup, izq, cen, der, sel;
-
-    String[] so = {"rojo", "amarillo", "verde", "azul"};
+    int ver = 0, roj = 0, azu = 0, ama = 0, nar = 0, vio = 0;
 
     public Ventana() {
 
@@ -31,7 +30,8 @@ public class Ventana extends JFrame {
         setResizable(false);
         GridBagConstraints c = new GridBagConstraints();
 
-        solucion.addAll(Arrays.asList(so));
+        reglas();
+        generarSolucion();
 
         //panel superior
         sup = new JPanel();
@@ -51,7 +51,7 @@ public class Ventana extends JFrame {
         izq = new JPanel();
         izq.setBackground(Color.GRAY);
         izq.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 14));
-        izq.setMinimumSize(new Dimension(70, 300));
+        izq.setMinimumSize(new Dimension(70, 640));
         izq.setPreferredSize(izq.getMinimumSize());
         c.gridx = 0;
         c.gridy = 1;
@@ -77,7 +77,7 @@ public class Ventana extends JFrame {
         der = new JPanel();
         der.setBackground(Color.GRAY);
         der.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 14));
-        der.setMinimumSize(new Dimension(70, 300));
+        der.setMinimumSize(new Dimension(70, 640));
         der.setPreferredSize(izq.getMinimumSize());
         c.gridx = 2;
         c.gridy = 1;
@@ -111,9 +111,6 @@ public class Ventana extends JFrame {
                 if (contTirada == 4) {
                     comprobar(tirada);
                 }
-                if (contTirada == 59) {
-                    perder();
-                }
             }
         });
 
@@ -138,9 +135,6 @@ public class Ventana extends JFrame {
                 if (contTirada == 4) {
                     comprobar(tirada);
 
-                }
-                if (contTirada == 59) {
-                    perder();
                 }
             }
         });
@@ -167,9 +161,6 @@ public class Ventana extends JFrame {
                     comprobar(tirada);
 
                 }
-                if (contTirada == 59) {
-                    perder();
-                }
             }
         });
 
@@ -194,9 +185,6 @@ public class Ventana extends JFrame {
                 if (contTirada == 4) {
                     comprobar(tirada);
 
-                }
-                if (contTirada == 59) {
-                    perder();
                 }
             }
         });
@@ -223,9 +211,6 @@ public class Ventana extends JFrame {
                     comprobar(tirada);
 
                 }
-                if (contTirada == 59) {
-                    perder();
-                }
             }
         });
 
@@ -250,12 +235,10 @@ public class Ventana extends JFrame {
                 if (contTirada == 4) {
                     comprobar(tirada);
                 }
-                if (contTirada == 59) {
-                    perder();
-                }
             }
         });
 
+        //propiedades del selector
         c.gridx = 0;
         c.gridy = 2;
         c.gridwidth = 3;
@@ -266,16 +249,55 @@ public class Ventana extends JFrame {
 
     }
 
-    public boolean comprobar(ArrayList<String> tir) { //comprueba la solucion con la tirada que hayamos hecho
+    public void reglas() { //muestra un mensaje con las reglas
+        JOptionPane.showMessageDialog(null,
+                "Selecciona una combinacion de colores y el programa "
+                + "la comparará con la solución generada.\n"
+                + "Las bolas blancas indican que la posicion es correcta.\n"
+                + "Las bolas negras indican que la posicion no es correcta.",
+                "Reglas", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public void generarSolucion() { //genera una solucion de forma aleatoria
+        for (int i = 0; i < 4; i++) {
+            int aleatorio = (int) Math.floor(Math.random() * 5 + 1);
+            switch (aleatorio) {
+                case 1:
+                    solucion.add("verde");
+                    ver++;
+                    break;
+                case 2:
+                    solucion.add("azul");
+                    azu++;
+                    break;
+                case 3:
+                    solucion.add("amarillo");
+                    ama++;
+                    break;
+                case 4:
+                    solucion.add("violeta");
+                    vio++;
+                    break;
+                case 5:
+                    solucion.add("rojo");
+                    roj++;
+                    break;
+                case 6:
+                    solucion.add("naranja");
+                    nar++;
+                    break;
+            }
+            System.out.println(solucion.get(i));
+        }
+    }
+
+    public void comprobar(ArrayList<String> tir) { //comprueba la solucion con la tirada que hayamos hecho
         intentos++;
         if (intentos == 15) {
-            if (comprobar(tir)) {
-                ganar();
-            } else {
-                perder();
-            }
+            perder();
+            intentos = 0;
         }
-        if (!tir.equals(solucion)) {
+        if (!tir.equals(solucion)) { //solucion incorrecta
             for (int i = 0; i < solucion.size(); i++) {
                 if (solucion.contains(tir.get(i))) { //mira si esta en la solucion
                     if (solucion.get(i).equals(tir.get(i))) {  //si esta en la misma posicion
@@ -319,31 +341,81 @@ public class Ventana extends JFrame {
             }
             tirada.clear();
             contTirada = 0;
-            System.out.println("Intentos" + intentos);
-            return false;
+            System.out.println(intentos);
         } else { //solucion correcta
+            intentos = 0;
             ganar();
-            return true;
         }
     }
 
     public void perder() { //este metodo crea una ventana de confirmacion que cierra el juego o crea uno nuevo
+        mostrarSolucion();
         int res = JOptionPane.showConfirmDialog(null, "Has perdido, ¿Quieres jugar otra vez?", "¡Qué pena!", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
         if (res == 0) {
             dispose();
             new Ventana().setVisible(true);
-        } else {
+        } else if (res == 1) {
             dispose();
         }
     }
 
     public void ganar() { //este metodo crea una ventana de confirmacion que cierra el juego o crea uno nuevo
+        mostrarSolucion();
         int res = JOptionPane.showConfirmDialog(null, "Has ganado, ¿Quieres jugar otra vez?", "¡Felicidades!", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
         if (res == 0) {
             dispose();
             new Ventana().setVisible(true);
-        } else {
+        } else if (res == 1) {
             dispose();
+        }
+    }
+
+    public void mostrarSolucion() { //este metodo muestra la solucion correcta
+        for (int i = 0; i < solucion.size(); i++) {
+            switch (solucion.get(i)) {
+                case "amarillo":
+                    URL urlAma = getClass().getResource("../recursos/amarillo.png");
+                    JLabel lblAma = new JLabel(new ImageIcon(urlAma));
+                    sup.add(lblAma);
+                    sup.validate();
+                    sup.repaint();
+                    break;
+                case "verde":
+                    URL urlVer = getClass().getResource("../recursos/verde.png");
+                    JLabel lblVer = new JLabel(new ImageIcon(urlVer));
+                    sup.add(lblVer);
+                    sup.validate();
+                    sup.repaint();
+                    break;
+                case "azul":
+                    URL urlAzu = getClass().getResource("../recursos/azul.png");
+                    JLabel lblAzu = new JLabel(new ImageIcon(urlAzu));
+                    sup.add(lblAzu);
+                    sup.validate();
+                    sup.repaint();
+                    break;
+                case "rojo":
+                    URL urlRoj = getClass().getResource("../recursos/rojo.png");
+                    JLabel lblRoj = new JLabel(new ImageIcon(urlRoj));
+                    sup.add(lblRoj);
+                    sup.validate();
+                    sup.repaint();
+                    break;
+                case "violeta":
+                    URL urlVio = getClass().getResource("../recursos/violeta.png");
+                    JLabel lblVio = new JLabel(new ImageIcon(urlVio));
+                    sup.add(lblVio);
+                    sup.validate();
+                    sup.repaint();
+                    break;
+                case "naranja":
+                    URL urlNar = getClass().getResource("../recursos/naranja.png");
+                    JLabel lblNar = new JLabel(new ImageIcon(urlNar));
+                    sup.add(lblNar);
+                    sup.validate();
+                    sup.repaint();
+                    break;
+            }
         }
     }
 

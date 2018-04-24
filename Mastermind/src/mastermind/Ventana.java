@@ -16,7 +16,8 @@ public class Ventana extends JFrame {
     int contTirada = 0;
     int intentos = 0;
     JPanel sup, izq, cen, der, sel;
-    int ver = 0, roj = 0, azu = 0, ama = 0, nar = 0, vio = 0;
+    int ver = 0, roj = 0, azu = 0, ama = 0, nar = 0, vio = 0, ros = 0, mar = 0;
+    int correcto;
 
     public Ventana() {
 
@@ -29,7 +30,7 @@ public class Ventana extends JFrame {
         setBackground(Color.GRAY);
         setResizable(false);
         GridBagConstraints c = new GridBagConstraints();
-
+        
         reglas();
         generarSolucion();
 
@@ -97,19 +98,20 @@ public class Ventana extends JFrame {
         bAma.setBorder(null);
         bAma.setOpaque(false);
         bAma.setToolTipText("Amarillo");
-        sel.add(bAma);
         bAma.addActionListener(new ActionListener() { //al pulsar 
             @Override
             public void actionPerformed(ActionEvent e) {
-                tirada.add("amarillo");
-                contTirada++;
-                URL urlAma = getClass().getResource("../recursos/amarillo.png");
-                JLabel lblAma = new JLabel(new ImageIcon(urlAma));
-                cen.add(lblAma);
-                cen.validate();
-                cen.repaint();
-                if (contTirada == 4) {
-                    comprobar(tirada);
+                if (!tirada.contains("amarillo")) {
+                    tirada.add("amarillo");
+                    contTirada++;
+                    URL urlAma = getClass().getResource("../recursos/amarillo.png");
+                    JLabel lblAma = new JLabel(new ImageIcon(urlAma));
+                    cen.add(lblAma);
+                    cen.validate();
+                    cen.repaint();
+                    if (contTirada == 4) {
+                        comprobar(tirada);
+                    }
                 }
             }
         });
@@ -121,20 +123,21 @@ public class Ventana extends JFrame {
         bVer.setBorder(null);
         bVer.setOpaque(false);
         bVer.setToolTipText("Verde");
-        sel.add(bVer);
         bVer.addActionListener(new ActionListener() { //al pulsar
             @Override
             public void actionPerformed(ActionEvent e) {
-                tirada.add("verde");
-                contTirada++;
-                URL urlVer = getClass().getResource("../recursos/verde.png");
-                JLabel lblVer = new JLabel(new ImageIcon(urlVer));
-                cen.add(lblVer);
-                cen.validate();
-                cen.repaint();
-                if (contTirada == 4) {
-                    comprobar(tirada);
+                if (!tirada.contains("verde")) {
+                    tirada.add("verde");
+                    contTirada++;
+                    URL urlVer = getClass().getResource("../recursos/verde.png");
+                    JLabel lblVer = new JLabel(new ImageIcon(urlVer));
+                    cen.add(lblVer);
+                    cen.validate();
+                    cen.repaint();
+                    if (contTirada == 4) {
+                        comprobar(tirada);
 
+                    }
                 }
             }
         });
@@ -145,21 +148,22 @@ public class Ventana extends JFrame {
         bAzu.setBackground(new Color(0, 0, 0, 0));
         bAzu.setBorder(null);
         bAzu.setOpaque(false);
-        bVer.setToolTipText("Azul");
-        sel.add(bAzu);
+        bAzu.setToolTipText("Azul");
         bAzu.addActionListener(new ActionListener() { //al pulsar
             @Override
             public void actionPerformed(ActionEvent e) {
-                tirada.add("azul");
-                contTirada++;
-                URL urlAzu = getClass().getResource("../recursos/azul.png");
-                JLabel lblAzu = new JLabel(new ImageIcon(urlAzu));
-                cen.add(lblAzu);
-                cen.validate();
-                cen.repaint();
-                if (contTirada == 4) {
-                    comprobar(tirada);
+                if (!tirada.contains("azul")) {
+                    tirada.add("azul");
+                    contTirada++;
+                    URL urlAzu = getClass().getResource("../recursos/azul.png");
+                    JLabel lblAzu = new JLabel(new ImageIcon(urlAzu));
+                    cen.add(lblAzu);
+                    cen.validate();
+                    cen.repaint();
+                    if (contTirada == 4) {
+                        comprobar(tirada);
 
+                    }
                 }
             }
         });
@@ -170,21 +174,22 @@ public class Ventana extends JFrame {
         bRoj.setBackground(new Color(0, 0, 0, 0));
         bRoj.setBorder(null);
         bRoj.setOpaque(false);
-        bVer.setToolTipText("Rojo");
-        sel.add(bRoj);
+        bRoj.setToolTipText("Rojo");
         bRoj.addActionListener(new ActionListener() { //al pulsar
             @Override
             public void actionPerformed(ActionEvent e) {
-                tirada.add("rojo");
-                contTirada++;
-                URL urlRoj = getClass().getResource("../recursos/rojo.png");
-                JLabel lblRoj = new JLabel(new ImageIcon(urlRoj));
-                cen.add(lblRoj);
-                cen.validate();
-                cen.repaint();
-                if (contTirada == 4) {
-                    comprobar(tirada);
+                if (!tirada.contains("rojo")) {
+                    tirada.add("rojo");
+                    contTirada++;
+                    URL urlRoj = getClass().getResource("../recursos/rojo.png");
+                    JLabel lblRoj = new JLabel(new ImageIcon(urlRoj));
+                    cen.add(lblRoj);
+                    cen.validate();
+                    cen.repaint();
+                    if (contTirada == 4) {
+                        comprobar(tirada);
 
+                    }
                 }
             }
         });
@@ -195,21 +200,22 @@ public class Ventana extends JFrame {
         bVio.setBackground(new Color(0, 0, 0, 0));
         bVio.setBorder(null);
         bVio.setOpaque(false);
-        bVer.setToolTipText("Violeta");
-        sel.add(bVio);
+        bVio.setToolTipText("Violeta");
         bVio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tirada.add("violeta");
-                contTirada++;
-                URL urlVio = getClass().getResource("../recursos/violeta.png");
-                JLabel lblVio = new JLabel(new ImageIcon(urlVio));
-                cen.add(lblVio);
-                cen.validate();
-                cen.repaint();
-                if (contTirada == 4) {
-                    comprobar(tirada);
+                if (!tirada.contains("violeta")) {
+                    tirada.add("violeta");
+                    contTirada++;
+                    URL urlVio = getClass().getResource("../recursos/violeta.png");
+                    JLabel lblVio = new JLabel(new ImageIcon(urlVio));
+                    cen.add(lblVio);
+                    cen.validate();
+                    cen.repaint();
+                    if (contTirada == 4) {
+                        comprobar(tirada);
 
+                    }
                 }
             }
         });
@@ -220,24 +226,85 @@ public class Ventana extends JFrame {
         bNar.setBackground(new Color(0, 0, 0, 0));
         bNar.setBorder(null);
         bNar.setOpaque(false);
-        bVer.setToolTipText("Naranja");
-        sel.add(bNar);
+        bNar.setToolTipText("Naranja");
         bNar.addActionListener(new ActionListener() { //al pulsar
             @Override
             public void actionPerformed(ActionEvent e) {
-                tirada.add("naranja");
-                contTirada++;
-                URL urlNar = getClass().getResource("../recursos/naranja.png");
-                JLabel lblNar = new JLabel(new ImageIcon(urlNar));
-                cen.add(lblNar);
-                cen.validate();
-                cen.repaint();
-                if (contTirada == 4) {
-                    comprobar(tirada);
+                if (!tirada.contains("naranja")) {
+                    tirada.add("naranja");
+                    contTirada++;
+                    URL urlNar = getClass().getResource("../recursos/naranja.png");
+                    JLabel lblNar = new JLabel(new ImageIcon(urlNar));
+                    cen.add(lblNar);
+                    cen.validate();
+                    cen.repaint();
+                    if (contTirada == 4) {
+                        comprobar(tirada);
+                    }
                 }
             }
         });
 
+        //boton rosa
+        URL urlRos = getClass().getResource("../Recursos/rosa.png");
+        JButton bRos = new JButton(new ImageIcon(urlRos));
+        bRos.setBackground(new Color(0, 0, 0, 0));
+        bRos.setBorder(null);
+        bRos.setOpaque(false);
+        bRos.setToolTipText("Rosa");
+        bRos.addActionListener(new ActionListener() { //al pulsar
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!tirada.contains("rosa")) {
+                    tirada.add("rosa");
+                    contTirada++;
+                    URL urlRos = getClass().getResource("../recursos/rosa.png");
+                    JLabel lblRos = new JLabel(new ImageIcon(urlRos));
+                    cen.add(lblRos);
+                    cen.validate();
+                    cen.repaint();
+                    if (contTirada == 4) {
+                        comprobar(tirada);
+                    }
+                }
+            }
+        });
+
+        //boton marron
+        URL urlMar = getClass().getResource("../Recursos/marron.png");
+        JButton bMar = new JButton(new ImageIcon(urlMar));
+        bMar.setBackground(new Color(0, 0, 0, 0));
+        bMar.setBorder(null);
+        bMar.setOpaque(false);
+        bMar.setToolTipText("Marron");
+        bMar.addActionListener(new ActionListener() { //al pulsar
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!tirada.contains("marron")) {
+                    tirada.add("marron");
+                    contTirada++;
+                    URL urlMar = getClass().getResource("../recursos/marron.png");
+                    JLabel lblMar = new JLabel(new ImageIcon(urlMar));
+                    cen.add(lblMar);
+                    cen.validate();
+                    cen.repaint();
+                    if (contTirada == 4) {
+                        comprobar(tirada);
+                    }
+                }
+            }
+        });
+
+        //añado los botones
+        sel.add(bRoj);
+        sel.add(bRos);
+        sel.add(bVio);
+        sel.add(bAzu);
+        sel.add(bVer);
+        sel.add(bAma);
+        sel.add(bNar);
+        sel.add(bMar);
+        
         //propiedades del selector
         c.gridx = 0;
         c.gridy = 2;
@@ -259,44 +326,62 @@ public class Ventana extends JFrame {
     }
 
     public void generarSolucion() { //genera una solucion de forma aleatoria
-        for (int i = 0; i < 4; i++) {
-            int aleatorio = (int) Math.floor(Math.random() * 5 + 1);
+        while (solucion.size() < 4) {
+            int aleatorio = (int) Math.floor(Math.random() * 8 + 1);
             switch (aleatorio) {
                 case 1:
-                    solucion.add("verde");
-                    ver++;
-                    break;
+                    if (ver <= 0) {
+                        ver++;
+                        solucion.add("verde");
+                        break;
+                    }
                 case 2:
-                    solucion.add("azul");
-                    azu++;
-                    break;
+                    if (roj <= 0) {
+                        roj++;
+                        solucion.add("rojo");
+                        break;
+                    }
                 case 3:
-                    solucion.add("amarillo");
-                    ama++;
-                    break;
+                    if (azu <= 0) {
+                        azu++;
+                        solucion.add("azul");
+                        break;
+                    }
                 case 4:
-                    solucion.add("violeta");
-                    vio++;
-                    break;
+                    if (ama <= 0) {
+                        ama++;
+                        solucion.add("amarillo");
+                        break;
+                    }
                 case 5:
-                    solucion.add("rojo");
-                    roj++;
-                    break;
+                    if (nar <= 0) {
+                        nar++;
+                        solucion.add("naranja");
+                        break;
+                    }
                 case 6:
-                    solucion.add("naranja");
-                    nar++;
-                    break;
-            }
-            System.out.println(solucion.get(i));
+                    if (vio <= 0) {
+                        vio++;
+                        solucion.add("violeta");
+                        break;
+                    }
+                case 7:
+                    if (ros <= 0) {
+                        ros++;
+                        solucion.add("rosa");
+                        break;
+                    }
+                case 8:
+                    if (mar <= 0) {
+                        mar++;
+                        solucion.add("marron");
+                        break;
+                    }
+            }            
         }
     }
 
     public void comprobar(ArrayList<String> tir) { //comprueba la solucion con la tirada que hayamos hecho
-        intentos++;
-        if (intentos == 15) {
-            perder();
-            intentos = 0;
-        }
         if (!tir.equals(solucion)) { //solucion incorrecta
             for (int i = 0; i < solucion.size(); i++) {
                 if (solucion.contains(tir.get(i))) { //mira si esta en la solucion
@@ -341,16 +426,31 @@ public class Ventana extends JFrame {
             }
             tirada.clear();
             contTirada = 0;
-            System.out.println(intentos);
+            correcto = 0;
         } else { //solucion correcta
             intentos = 0;
+            correcto = 1;
             ganar();
+        }
+        intentos++;
+        if (intentos == 15) {
+            if (correcto == 1) {
+                ganar();
+                intentos = 0;
+            }
+            if (correcto == 0) {
+                perder();
+                intentos = 0;
+            }
         }
     }
 
     public void perder() { //este metodo crea una ventana de confirmacion que cierra el juego o crea uno nuevo
         mostrarSolucion();
         int res = JOptionPane.showConfirmDialog(null, "Has perdido, ¿Quieres jugar otra vez?", "¡Qué pena!", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
+        while (res == -1) {
+            res = JOptionPane.showConfirmDialog(null, "Has perdido, ¿Quieres jugar otra vez?", "¡Qué pena!", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
+        }
         if (res == 0) {
             dispose();
             new Ventana().setVisible(true);
@@ -412,6 +512,20 @@ public class Ventana extends JFrame {
                     URL urlNar = getClass().getResource("../recursos/naranja.png");
                     JLabel lblNar = new JLabel(new ImageIcon(urlNar));
                     sup.add(lblNar);
+                    sup.validate();
+                    sup.repaint();
+                    break;
+                case "rosa":
+                    URL urlRos = getClass().getResource("../recursos/rosa.png");
+                    JLabel lblRos = new JLabel(new ImageIcon(urlRos));
+                    sup.add(lblRos);
+                    sup.validate();
+                    sup.repaint();
+                    break;
+                case "gris":
+                    URL urlMar = getClass().getResource("../recursos/marron.png");
+                    JLabel lblMar = new JLabel(new ImageIcon(urlMar));
+                    sup.add(lblMar);
                     sup.validate();
                     sup.repaint();
                     break;

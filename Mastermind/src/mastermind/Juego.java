@@ -18,11 +18,15 @@ public class Juego extends JFrame {
     JPanel sup, izq, cen, der, sel;
     int ver = 0, roj = 0, azu = 0, ama = 0, nar = 0, vio = 0, ros = 0, mar = 0, cel = 0;
     int correcto;
+    Sonido sonido = new Sonido();
+    PantallaCarga pantalla = new PantallaCarga();
+    fondoThread fondoT = new fondoThread();
     
     public Juego() {
 
         //creacion del tablero
         super("Mastermind");
+        pantalla.PantallaCarga();
         getContentPane().setLayout(new GridBagLayout());
         setSize(300, 700);
         setLocationRelativeTo(null);
@@ -31,7 +35,6 @@ public class Juego extends JFrame {
         setResizable(false);
         GridBagConstraints c = new GridBagConstraints();
         
-        reglas();
         generarSolucion();
 
         //cambiar el icono del programa
@@ -127,6 +130,7 @@ public class Juego extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!tirada.contains("amarillo")) {
+                    sonido.mov();
                     tirada.add("amarillo");
                     contTirada++;
                     URL urlAma = getClass().getResource("/recursos/amarillo.png");
@@ -152,6 +156,7 @@ public class Juego extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!tirada.contains("verde")) {
+                    sonido.mov();
                     tirada.add("verde");
                     contTirada++;
                     URL urlVer = getClass().getResource("/recursos/verde.png");
@@ -178,6 +183,7 @@ public class Juego extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!tirada.contains("azul")) {
+                    sonido.mov();
                     tirada.add("azul");
                     contTirada++;
                     URL urlAzu = getClass().getResource("/recursos/azul.png");
@@ -204,6 +210,7 @@ public class Juego extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!tirada.contains("rojo")) {
+                    sonido.mov();
                     tirada.add("rojo");
                     contTirada++;
                     URL urlRoj = getClass().getResource("/recursos/rojo.png");
@@ -230,6 +237,7 @@ public class Juego extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!tirada.contains("violeta")) {
+                    sonido.mov();
                     tirada.add("violeta");
                     contTirada++;
                     URL urlVio = getClass().getResource("/recursos/violeta.png");
@@ -256,6 +264,7 @@ public class Juego extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!tirada.contains("naranja")) {
+                    sonido.mov();
                     tirada.add("naranja");
                     contTirada++;
                     URL urlNar = getClass().getResource("/recursos/naranja.png");
@@ -281,6 +290,7 @@ public class Juego extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!tirada.contains("rosa")) {
+                    sonido.mov();
                     tirada.add("rosa");
                     contTirada++;
                     URL urlRos = getClass().getResource("/recursos/rosa.png");
@@ -306,6 +316,7 @@ public class Juego extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!tirada.contains("marron")) {
+                    sonido.mov();
                     tirada.add("marron");
                     contTirada++;
                     URL urlMar = getClass().getResource("/recursos/marron.png");
@@ -331,6 +342,7 @@ public class Juego extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!tirada.contains("celeste")) {
+                    sonido.mov();
                     tirada.add("celeste");
                     contTirada++;
                     URL urlCel = getClass().getResource("/recursos/celeste.png");
@@ -365,9 +377,11 @@ public class Juego extends JFrame {
         getContentPane().add(sel, c);
         c.weightx = 0;
         
+        fondoT.start();
+        
     }
     
-    public void reglas() { //muestra un mensaje con las reglas
+    public static void reglas() { //muestra un mensaje con las reglas
         JOptionPane.showMessageDialog(null,
                 "Selecciona una combinacion de colores y el programa "
                 + "la comparará con la solución generada.\n"
@@ -435,61 +449,84 @@ public class Juego extends JFrame {
                         break;
                     }
             }
-        }
+        }       
     }
     
     public void comprobar(ArrayList<String> tir) { //comprueba la solucion con la tirada que hayamos hecho
+        int hoa[] = new int[4]; //Contador huecos ocupados array
+        int ho = 0; //Contador huecos ocupados
         if (!tir.equals(solucion)) { //solucion incorrecta
-            for (int i = 0; i < solucion.size(); i++) {
-                if (solucion.contains(tir.get(i))) { //mira si esta en la solucion
-                    if (solucion.get(i).equals(tir.get(i))) {  //si esta en la misma posicion
-                        URL urlBla = getClass().getResource("/recursos/blanco.png");
-                        JLabel lblBla = new JLabel(new ImageIcon(urlBla));
-                        if (i == 0 || i == 1) { //mira si esta en el panel izq
-                            izq.add(lblBla);
-                            izq.validate();
-                            izq.repaint();
-                        } else if (i == 2 || i == 3) { //mira si esta en el panel der
-                            der.add(lblBla);
-                            der.validate();
-                            der.repaint();
-                        }
-                    } else { // si no esta en la misma posicion
-                        URL urlNeg = getClass().getResource("/recursos/negro.png");
-                        JLabel lblNeg = new JLabel(new ImageIcon(urlNeg));
-                        if (i == 0 || i == 1) { //mira si esta en el panel izq
-                            izq.add(lblNeg);
-                            izq.validate();
-                            izq.repaint();
-                        } else if (i == 2 || i == 3) { //mira si esta en el panel der
-                            der.add(lblNeg);
-                            der.validate();
-                            der.repaint();
-                        }
-                    }
-                } else { //si no esta en la solucion
-                    URL urlVacio = getClass().getResource("/recursos/vacio.png");
-                    JLabel lblVacio = new JLabel(new ImageIcon(urlVacio));
-                    if (i == 0 || i == 1) { //mira si esta en el panel izq
-                        izq.add(lblVacio);
+            for(int i = 0 ; i < solucion.size(); i++){ //Rellena las bolas blancas
+                if(solucion.get(i).equals(tir.get(i))){ 
+                    URL urlBla = getClass().getResource("/recursos/blanco.png");
+                    JLabel lblBla = new JLabel(new ImageIcon(urlBla));
+                    if(hoa[i] == 0 && (ho == 0 || ho == 1)){
+                        izq.add(lblBla);
                         izq.validate();
                         izq.repaint();
-                    } else if (i == 2 || i == 3) { //mira si esta en el panel der
-                        der.add(lblVacio);
+                        hoa[i]=1;
+                        ho++;
+                    }
+                    else if(hoa[i] == 0 && (ho == 2 || ho ==3)){
+                        der.add(lblBla);
                         der.validate();
-                        der.repaint();
+                        der.repaint();                       
+                        hoa[i]=1;
+                        ho++;
+                    }                       
+                }   
+            }
+            for(int i = 0; i < solucion.size(); i++){ //Rellena las bolas negras
+                if(solucion.contains(tir.get(i))){
+                    URL urlNeg = getClass().getResource("/recursos/negro.png");
+                    JLabel lblNeg = new JLabel(new ImageIcon(urlNeg));
+                    if(hoa[i] == 0 && (ho == 0 || ho == 1)){
+                        izq.add(lblNeg);
+                        izq.validate();
+                        izq.repaint();
+                        hoa[i]=1;
+                        ho++;
+                    }
+                    else if(hoa[i] == 0 && (ho == 2 || ho ==3)){
+                        der.add(lblNeg);
+                        der.validate();
+                        der.repaint();                       
+                        hoa[i]=1;
+                        ho++;
                     }
                 }
             }
-            tirada.clear();
-            contTirada = 0;
-            correcto = 0;
-        } else { //solucion correcta
-            intentos = 0;
-            correcto = 1;
-            ganar();
-        }
+            for(int i = 0; i < solucion.size(); i++){ //"Rellena" los espacios vacios
+                URL urlVacio = getClass().getResource("/recursos/vacio.png");
+                JLabel lblVacio = new JLabel(new ImageIcon(urlVacio));
+                if(hoa[i] == 0 && (ho == 0 || ho == 1)){
+                    izq.add(lblVacio);
+                    izq.validate();
+                    izq.repaint();
+                    hoa[i]=1;
+                    ho++;
+                }
+                else if(hoa[i] == 0 && (ho == 2 || ho ==3)){
+                    der.add(lblVacio);
+                    der.validate();
+                    der.repaint();                       
+                    hoa[i]=1;
+                    ho++;
+                } 
+            }                      
+        }else { //solucion correcta
+                    intentos = 0;
+                    correcto = 1;
+                    ganar();
+                }
+        tirada.clear();
+        contTirada = 0;
+        correcto = 0;
         intentos++;
+        for(int i=0; i <= 3; i++){
+                hoa[i]=0;
+            }
+        ho=0;
         if (intentos == 15) {
             if (correcto == 1) {
                 ganar();
@@ -500,29 +537,38 @@ public class Juego extends JFrame {
                 intentos = 0;
             }
         }
-    }
-    
+    }   
     public void perder() { //este metodo crea una ventana de confirmacion que cierra el juego o crea uno nuevo
         mostrarSolucion();
+        derrotaThread derrT = new derrotaThread();
+        fondoT.interrupt();
+        derrT.start();
         int res = JOptionPane.showConfirmDialog(null, "Has perdido, ¿Quieres jugar otra vez?", "¡Qué pena!", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
         while (res == -1) {
             res = JOptionPane.showConfirmDialog(null, "Has perdido, ¿Quieres jugar otra vez?", "¡Qué pena!", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
         }
         if (res == 0) {
+            derrT.interrupt();
             dispose();
             new Juego().setVisible(true);
         } else if (res == 1) {
+            derrT.interrupt();
             dispose();
         }
     }
     
     public void ganar() { //este metodo crea una ventana de confirmacion que cierra el juego o crea uno nuevo
         mostrarSolucion();
+        victoriaThread vicT = new victoriaThread();
+        fondoT.interrupt();
+        vicT.start();
         int res = JOptionPane.showConfirmDialog(null, "Has ganado, ¿Quieres jugar otra vez?", "¡Felicidades!", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
         if (res == 0) {
+            vicT.interrupt();
             dispose();
             new Juego().setVisible(true);
         } else if (res == 1) {
+            vicT.interrupt();
             dispose();
         }
     }
@@ -599,6 +645,7 @@ public class Juego extends JFrame {
     
     public static void main(String[] args) {
         new Juego().setVisible(true);
+        reglas();
     }
     
 }
